@@ -691,10 +691,12 @@ function hint(t){ document.getElementById('hintText').textContent=t; }
 // Screen shake
 function triggerShake(cleared){
   shakeFrames=cleared>=4?24:cleared>=2?16:10;
+  console.log('triggerShake called, shakeFrames='+shakeFrames);
   if(shakeFrames>0) shakeLoop();
 }
 
 function shakeLoop(){
+  console.log('shakeLoop called, shakeFrames='+shakeFrames);
   if(shakeFrames<=0){
     document.getElementById('boardWrap').style.transform='';
     return;
@@ -707,12 +709,11 @@ function shakeLoop(){
   requestAnimationFrame(shakeLoop);
 }
 
-// Vibration
 function vibrate(cleared){
+  console.log('vibrate called, cleared='+cleared+' navigator.vibrate='+!!navigator.vibrate);
   if(!navigator.vibrate) return;
-  if(cleared>=4) navigator.vibrate([80,60,120]);
-  else if(cleared>=2) navigator.vibrate(60);
-  else navigator.vibrate(30);
+  const result = navigator.vibrate(cleared>=4?[80,60,120]:cleared>=2?60:30);
+  console.log('vibrate result='+result);
 }
 
 // Floating score text
