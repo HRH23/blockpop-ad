@@ -690,18 +690,16 @@ function hint(t){ document.getElementById('hintText').textContent=t; }
 
 // Screen shake
 function triggerShake(cleared){
-  shakeFrames=cleared>=4?24:cleared>=2?16:10;
-  console.log('triggerShake called, shakeFrames='+shakeFrames);
+  shakeFrames=cleared>=4?40:cleared>=2?30:20;
   if(shakeFrames>0) shakeLoop();
 }
 
 function shakeLoop(){
-  console.log('shakeLoop called, shakeFrames='+shakeFrames);
   if(shakeFrames<=0){
     document.getElementById('boardWrap').style.transform='';
     return;
   }
-  const intensity=(shakeFrames/24)*7;
+  const intensity=(shakeFrames/40)*14;  // increased from 7 to 14
   const x=(Math.random()*2-1)*intensity;
   const y=(Math.random()*2-1)*intensity;
   document.getElementById('boardWrap').style.transform=`translate(${x}px,${y}px)`;
@@ -710,10 +708,10 @@ function shakeLoop(){
 }
 
 function vibrate(cleared){
-  console.log('vibrate called, cleared='+cleared+' navigator.vibrate='+!!navigator.vibrate);
   if(!navigator.vibrate) return;
-  const result = navigator.vibrate(cleared>=4?[80,60,120]:cleared>=2?60:30);
-  console.log('vibrate result='+result);
+  if(cleared>=4) navigator.vibrate([100,50,100,50,200]);
+  else if(cleared>=2) navigator.vibrate([80,40,80]);
+  else navigator.vibrate(80);  // increased from 30 to 80
 }
 
 // Floating score text
