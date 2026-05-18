@@ -597,6 +597,9 @@ function clearLines(placeR,placeC){
   for(let c=0;c<SIZE;c++) if(grid.every(row=>row[c]!==EMPTY)) cols.push(c);
 
   if(rows.length||cols.length){
+    console.log('Lines cleared:', rows.length + cols.length);
+    console.log('Triggering shake and vibrate');
+    
     // Flash cells
     [...rows,...cols].forEach(idx=>{
       for(let i=0;i<SIZE;i++){
@@ -606,14 +609,12 @@ function clearLines(placeR,placeC){
       }
     });
 
-    // Clear grid
     rows.forEach(r=>{for(let c=0;c<SIZE;c++) grid[r][c]=EMPTY;});
     cols.forEach(c=>{for(let r=0;r<SIZE;r++) grid[r][c]=EMPTY;});
 
     const cleared=rows.length+cols.length;
     score+=cleared*100+(cleared>1?cleared*cleared*50:0);
 
-    // Effects
     triggerShake(cleared);
     spawnLineParticles(rows,cols);
     spawnLineShockwaves(rows,cols);
