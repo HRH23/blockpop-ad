@@ -246,7 +246,7 @@ body.rm-on .cell.filled { cursor:crosshair; box-shadow:0 0 8px rgba(239,57,50,0.
 </audio>
 
 <script>
-// â”€â”€ CONSTANTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 const SIZE = 8, EMPTY = -1, GSECS = 30;
 const COLORS  = ['#EF3932','#2986F2','#56BB45','#FCC70C','#A650CD'];
 const CDARK   = ['#B02020','#1560C0','#3A8A30','#C49800','#7A3098'];
@@ -261,7 +261,7 @@ const SHAPES  = [
 ];
 const WEIGHTS = [3,5,5,6,6,4,4,3,3,3,3];
 
-// â”€â”€ STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 let grid, pieces, score, timeLeft, timer, alive;
 let rmMode=false, rotMode=false;
 let pw={rem:3,rot:3,dice:3};
@@ -272,7 +272,7 @@ let dragInfo=null;
 let particles=[], shockwaves=[], shakeFrames=0;
 let fxRunning=false;
 
-// â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 function init(){
   grid=Array.from({length:SIZE},()=>Array(SIZE).fill(EMPTY));
   score=0; timeLeft=GSECS; alive=true;
@@ -314,7 +314,7 @@ function buildBoard(){
   fx.style.width=bpx+'px'; fx.style.height=bpx+'px';
 }
 
-// â”€â”€ TIMER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 function startTimer(){
   timer=setInterval(()=>{
     timeLeft--;
@@ -324,7 +324,7 @@ function startTimer(){
   },1000);
 }
 
-// â”€â”€ PIECES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 function randPiece(){
   let tot=WEIGHTS.reduce((a,b)=>a+b,0), pick=Math.floor(Math.random()*tot), idx=0;
   for(let i=0;i<WEIGHTS.length;i++){pick-=WEIGHTS[i];if(pick<0){idx=i;break;}}
@@ -350,7 +350,7 @@ function spawnPieces(){
   renderTray();
 }
 
-// â”€â”€ RENDER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 function renderBoard(){
   document.querySelectorAll('.cell').forEach(el=>{
     const r=+el.dataset.r,c=+el.dataset.c,v=grid[r][c];
@@ -390,7 +390,7 @@ function renderTray(){
   setupDrag();
 }
 
-// â”€â”€ DRAG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 function setupDrag(){
   for(let i=0;i<3;i++){
     const s=document.getElementById('s'+i);
@@ -616,7 +616,7 @@ function clearHL(){
   document.querySelectorAll('.hl,.hl-bad').forEach(el=>el.classList.remove('hl','hl-bad'));
 }
 
-// â”€â”€ PLACEMENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 function placePiece(idx,or,oc){
   const piece=pieces[idx];
   for(const[dr,dc]of piece.shape) grid[or+dr][oc+dc]=piece.color;
@@ -665,7 +665,7 @@ function updateScore(){
   document.getElementById('scoreVal').textContent=score.toLocaleString();
 }
 
-// â”€â”€ POWERUPS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 function actRemove(){
   if(pw.rem<=0||!alive) return;
   rmMode=!rmMode; rotMode=false;
@@ -723,7 +723,7 @@ function cellTap(e){
 
 function hint(t){ document.getElementById('hintText').textContent=t; }
 
-// â”€â”€ EFFECTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 
 // Screen shake
 function triggerShake(cleared){
@@ -873,14 +873,14 @@ function runFx(){
   requestAnimationFrame(frame);
 }
 
-// â”€â”€ GAME OVER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 function endGame(){
   alive=false; clearInterval(timer);
   document.getElementById('ctaScore').textContent=score.toLocaleString();
   setTimeout(()=>document.getElementById('cta').classList.add('show'),700);
 }
 
-// â”€â”€ START â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- CONSTANTS --
 window.addEventListener('load',()=>{
   init();
   document.getElementById('ctaBtn').addEventListener('click', function(e){
