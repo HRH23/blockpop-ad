@@ -279,16 +279,6 @@ function init(){
   buildBoard(); spawnPieces(); renderBoard(); startTimer();
 }
 
-// Replace the ctaBtn click handler
-document.getElementById('ctaBtn').addEventListener('click', function(e){
-  e.preventDefault();
-  const url = 'https://play.google.com/store/apps/details?id=com.indiedevstudios.blockpop';
-  if(typeof mraid !== 'undefined' && mraid && mraid.open){
-    mraid.open(url);
-  } else {
-    window.open(url, '_blank');
-  }
-});
 
 function buildBoard(){
   const board=document.getElementById('board');
