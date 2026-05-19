@@ -4,6 +4,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Block Pop</title>
+<!-- Add in <head> before your <style> -->
+<script>
+// MRAID 2.0 compliance
+var mraid = window.mraid || null;
+
+function mraidReady(){
+  if(mraid.getState() === 'loading'){
+    mraid.addEventListener('ready', onMraidReady);
+  } else {
+    onMraidReady();
+  }
+}
+
+function onMraidReady(){
+  mraid.addEventListener('stateChange', function(state){
+    if(state === 'hidden'){
+      // Pause everything
+      clearInterval(timer);
+      const music=document.getElementById('bgMusic');
+      if(music) music.pause();
+    } else if(state === 'default' || state === 'expanded'){
+      // Resume
+      const music=document.getElementById('bgMusic');
+      if(music && alive) music.play().catch(()=>{});
+      if(alive && timeLeft>0) startTimer();
+    }
+  });
+}
+
+if(typeof mraid !== 'undefined' && mraid){
+  mraidReady();
+}
+</script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 :root {
@@ -210,7 +243,6 @@ body.rm-on .cell.filled { cursor:crosshair; box-shadow:0 0 8px rgba(239,57,50,0.
     <div class="ctaf"><span style="color:#FFD700">&#9733;</span><span>Beat your best score</span></div>
     <div class="ctaf"><span style="color:#56BB45">&#10003;</span><span>Free on Android</span></div>
   </div>
-  <a id="ctaBtn" href="https://play.google.com/store/apps/details?id=com.indiedevstudios.blockpop" target="_blank">DOWNLOAD FREE</a>
   <div id="ctaRating">&#9733;&#9733;&#9733;&#9733;&#9733; &nbsp;Block Pop on Google Play</div>
 </div>
 </div>
@@ -252,6 +284,17 @@ function init(){
   score=0; timeLeft=GSECS; alive=true;
   buildBoard(); spawnPieces(); renderBoard(); startTimer();
 }
+
+// Replace the ctaBtn click handler
+document.getElementById('ctaBtn').addEventListener('click', function(e){
+  e.preventDefault();
+  const url = 'https://play.google.com/store/apps/details?id=com.indiedevstudios.blockpop';
+  if(typeof mraid !== 'undefined' && mraid && mraid.open){
+    mraid.open(url);
+  } else {
+    window.open(url, '_blank');
+  }
+});
 
 function buildBoard(){
   const board=document.getElementById('board');
