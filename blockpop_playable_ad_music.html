@@ -309,11 +309,23 @@ function buildBoard(){
 
 // -- CONSTANTS --
 function startTimer(){
+  clearInterval(timer);
+  timer=null;
+  
+  // Start music immediately
+  const music=document.getElementById('bgMusic');
+  if(music) music.play().catch(()=>{
+    // Autoplay blocked — try on first touch instead
+    document.addEventListener('touchstart', ()=>{
+      music.play().catch(()=>{});
+    }, {once:true});
+  });
+
   timer=setInterval(()=>{
     timeLeft--;
     document.getElementById('timerVal').textContent=timeLeft;
     if(timeLeft<=5) document.getElementById('timerVal').style.color='#EF3932';
-    if(timeLeft<=0){clearInterval(timer);endGame();}
+    if(timeLeft<=0){clearInterval(timer);timer=null;endGame();}
   },1000);
 }
 
