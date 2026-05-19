@@ -5,32 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Block Pop</title>
 <!-- Add in <head> before your <style> -->
-<script>
-var mraid = window.mraid || null;
-function mraidReady(){
-  if(mraid.getState()==='loading'){
-    mraid.addEventListener('ready', onMraidReady);
-  } else {
-    onMraidReady();
-  }
-}
-function onMraidReady(){
-  mraid.addEventListener('stateChange', function(state){
-    if(state==='hidden'){
-      if(typeof timer!=='undefined') clearInterval(timer);
-      const music=document.getElementById('bgMusic');
-      if(music) music.pause();
-    } else if(state==='default'||state==='expanded'){
-      const music=document.getElementById('bgMusic');
-      if(music && typeof alive!=='undefined' && alive) music.play().catch(()=>{});
-      if(typeof alive!=='undefined' && alive && typeof timeLeft!=='undefined' && timeLeft>0) startTimer();
-    }
-  });
-}
-if(typeof mraid!=='undefined' && mraid){
-  mraidReady();
-}
-</script>
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 :root {
