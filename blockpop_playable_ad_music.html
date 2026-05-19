@@ -887,6 +887,7 @@ function endGame(){
 // -- CONSTANTS --
 window.addEventListener('load',()=>{
   init();
+  
   document.getElementById('ctaBtn').addEventListener('click', function(e){
     e.preventDefault();
     const url='https://play.google.com/store/apps/details?id=com.indiedevstudios.blockpop';
@@ -895,6 +896,26 @@ window.addEventListener('load',()=>{
     } else {
       window.open(url,'_blank');
     }
+  });
+
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden){
+      clearInterval(timer);
+      timer=null;
+      const music=document.getElementById('bgMusic');
+      if(music) music.pause();
+    } else {
+      const music=document.getElementById('bgMusic');
+      if(music && alive) music.play().catch(()=>{});
+      if(alive && timeLeft>0 && !timer) startTimer();
+    }
+  });
+
+  window.addEventListener('pagehide', ()=>{
+    clearInterval(timer);
+    timer=null;
+    const music=document.getElementById('bgMusic');
+    if(music) music.pause();
   });
 });
 window.addEventListener('resize',()=>{buildBoard();renderBoard();renderTray();});
