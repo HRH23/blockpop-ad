@@ -5,7 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Block Pop</title>
 <!-- Add in <head> before your <style> -->
-
+<script>
+var mraid = window.mraid || null;
+function mraidReady(){
+  try {
+    if(mraid.getState()==='loading'){
+      mraid.addEventListener('ready', onMraidReady);
+    } else {
+      onMraidReady();
+    }
+  } catch(e) {}
+}
+function onMraidReady(){
+  try {
+    mraid.addEventListener('stateChange', function(state){
+      if(state==='hidden'){
+        if(typeof timer!=='undefined') clearInterval(timer);
+        const music=document.getElementById('bgMusic');
+        if(music) music.pause();
+      } else if(state==='default'||state==='expanded'){
+        const music=document.getElementById('bgMusic');
+        if(music && typeof alive!=='undefined' && alive) music.play().catch(()=>{});
+        if(typeof alive!=='undefined' && alive && typeof timeLeft!=='undefined' && timeLeft>0) startTimer();
+      }
+    });
+  } catch(e) {}
+}
+if(mraid !== null){
+  mraidReady();
+}
+</script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 :root {
@@ -254,6 +283,16 @@ function init(){
   buildBoard(); spawnPieces(); renderBoard(); startTimer();
 }
 
+// Replace the ctaBtn click handler
+document.getElementById('ctaBtn').addEventListener('click', function(e){
+  e.preventDefault();
+  const url = 'https://play.google.com/store/apps/details?id=com.indiedevstudios.blockpop';
+  if(typeof mraid !== 'undefined' && mraid && mraid.open){
+    mraid.open(url);
+  } else {
+    window.open(url, '_blank');
+  }
+});
 
 function buildBoard(){
   const board=document.getElementById('board');
