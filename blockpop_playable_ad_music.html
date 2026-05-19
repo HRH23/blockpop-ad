@@ -6,34 +6,28 @@
 <title>Block Pop</title>
 <!-- Add in <head> before your <style> -->
 <script>
-// MRAID 2.0 compliance
 var mraid = window.mraid || null;
-
 function mraidReady(){
-  if(mraid.getState() === 'loading'){
+  if(mraid.getState()==='loading'){
     mraid.addEventListener('ready', onMraidReady);
   } else {
     onMraidReady();
   }
 }
-
 function onMraidReady(){
   mraid.addEventListener('stateChange', function(state){
-    if(state === 'hidden'){
-      // Pause everything
-      clearInterval(timer);
+    if(state==='hidden'){
+      if(typeof timer!=='undefined') clearInterval(timer);
       const music=document.getElementById('bgMusic');
       if(music) music.pause();
-    } else if(state === 'default' || state === 'expanded'){
-      // Resume
+    } else if(state==='default'||state==='expanded'){
       const music=document.getElementById('bgMusic');
-      if(music && alive) music.play().catch(()=>{});
-      if(alive && timeLeft>0) startTimer();
+      if(music && typeof alive!=='undefined' && alive) music.play().catch(()=>{});
+      if(typeof alive!=='undefined' && alive && typeof timeLeft!=='undefined' && timeLeft>0) startTimer();
     }
   });
 }
-
-if(typeof mraid !== 'undefined' && mraid){
+if(typeof mraid!=='undefined' && mraid){
   mraidReady();
 }
 </script>
@@ -887,7 +881,18 @@ function endGame(){
 }
 
 // â”€â”€ START â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-window.addEventListener('load',init);
+window.addEventListener('load',()=>{
+  init();
+  document.getElementById('ctaBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    const url='https://play.google.com/store/apps/details?id=com.indiedevstudios.blockpop';
+    if(typeof mraid!=='undefined' && mraid && mraid.open){
+      mraid.open(url);
+    } else {
+      window.open(url,'_blank');
+    }
+  });
+});
 window.addEventListener('resize',()=>{buildBoard();renderBoard();renderTray();});
 </script>
 </body>
