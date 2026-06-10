@@ -409,12 +409,11 @@ function setupDrag(){
 }
 
 function startDrag(e,idx){
+
+  unlockAudio(); // ← move to very top, before any returns
+
   if(!alive||!pieces[idx]) return;
   if(rotMode){rotatePiece(idx);return;}
-
-  // Start music on first interaction
-  const music=document.getElementById('bgMusic');
-  unlockAudio();
 
   boardRect=document.getElementById('board').getBoundingClientRect();
   dragInfo={idx,piece:pieces[idx],dropR:-1,dropC:-1,valid:false};
@@ -460,6 +459,10 @@ function moveGhost(e){
 }
 
 function onMove(e){
+
+    unlockAudio(); // Add this
+
+
   if(!dragInfo) return;
   boardRect=document.getElementById('board').getBoundingClientRect();
   moveGhost(e);
