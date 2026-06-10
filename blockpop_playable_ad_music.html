@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -311,19 +311,19 @@ function buildBoard(){
   fx.style.width=bpx+'px'; fx.style.height=bpx+'px';
 }
 
+let audioUnlocked = false;
+
+function unlockAudio() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    const music = document.getElementById('bgMusic');
+    if (music) music.play().catch(() => {});
+}
+
 // -- CONSTANTS --
 function startTimer(){
   clearInterval(timer);
   timer=null;
-  
-  // Start music immediately
-  const music=document.getElementById('bgMusic');
-  if(music) music.play().catch(()=>{
-    // Autoplay blocked — try on first touch instead
-    document.addEventListener('touchstart', ()=>{
-      music.play().catch(()=>{});
-    }, {once:true});
-  });
 
   timer=setInterval(()=>{
     timeLeft--;
@@ -414,7 +414,7 @@ function startDrag(e,idx){
 
   // Start music on first interaction
   const music=document.getElementById('bgMusic');
-  if(music && music.paused) music.play().catch(()=>{});
+  unlockAudio();
 
   boardRect=document.getElementById('board').getBoundingClientRect();
   dragInfo={idx,piece:pieces[idx],dropR:-1,dropC:-1,valid:false};
@@ -715,6 +715,9 @@ function rotatePiece(idx){
 }
 
 function cellTap(e){
+
+  unlockAudio(); // add this line
+
   if(!rmMode||!alive) return;
   const r=+e.target.dataset.r,c=+e.target.dataset.c;
   if(grid[r][c]===EMPTY) return;
@@ -897,26 +900,31 @@ window.addEventListener('load',()=>{
   
   document.getElementById('ctaBtn').addEventListener('click', function(e){
     e.preventDefault();
-    const url='https://play.google.com/store/apps/details?id=com.indiedevstudios.blockpop';
-    if(typeof mraid!=='undefined' && mraid && mraid.open){
-      mraid.open(url);
-    } else {
-      window.open(url,'_blank');
-    }
+    
+      // Add this line for Meta
+      if(typeof FbPlayableAd !== 'undefined' && FbPlayableAd.onCTAClick) {
+          FbPlayableAd.onCTAClick();
+      }
+      
+      const url='https://play.google.com/store/apps/details?id=com.indiedevstudios.blockpop';
+      if(typeof mraid!=='undefined' && mraid && mraid.open){
+        mraid.open(url);
+      } else {
+        window.open(url,'_blank');
+      }
   });
 
   document.addEventListener('visibilitychange', ()=>{
     if(document.hidden){
-      clearInterval(timer);
-      timer=null;
-      const music=document.getElementById('bgMusic');
-      if(music) music.pause();
+        clearInterval(timer);
+        timer=null;
+        const music=document.getElementById('bgMusic');
+        if(music) music.pause();
     } else {
-      const music=document.getElementById('bgMusic');
-      if(music && alive) music.play().catch(()=>{});
-      if(alive && timeLeft>0 && !timer) startTimer();
+        if(alive && timeLeft>0 && !timer) startTimer();
+        // Don't resume music here — only resume on user interaction
     }
-  });
+});
 
   window.addEventListener('pagehide', ()=>{
     clearInterval(timer);
@@ -924,7 +932,10 @@ window.addEventListener('load',()=>{
     const music=document.getElementById('bgMusic');
     if(music) music.pause();
   });
+
+  document.addEventListener('pointerdown', unlockAudio, { once: true });
 });
+
 window.addEventListener('resize',()=>{buildBoard();renderBoard();renderTray();});
 </script>
 </body>
