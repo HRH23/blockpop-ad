@@ -448,9 +448,19 @@ let audioUnlocked = false;
 
 function unlockAudio() {
     if (audioUnlocked) return;
-    audioUnlocked = true;
     const music = document.getElementById('bgMusic');
-    if (music) music.play().catch(() => {});
+    if (!music) {
+        console.warn('bgMusic element not found');
+        return;
+    }
+    music.play()
+        .then(() => { 
+            audioUnlocked = true; 
+            console.log('bgMusic started successfully');
+        })
+        .catch(err => { 
+            console.warn('bgMusic play failed:', err.name, err.message); 
+        });
 }
 
 // -- CONSTANTS --
