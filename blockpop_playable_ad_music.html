@@ -304,10 +304,17 @@ const THEMES = {
     accent: '#FFFFFF', sub: '#8CA0B8',
     colors: ['#3D5A8C','#9C4A63','#3F8087','#8C5468','#33507A'],
     cdark:  ['#2A3E5C','#6E3446','#2C5A5E','#5E3A48','#243A56'],
-    cellTexture: `repeating-linear-gradient(45deg, rgba(255,255,255,0.08) 0px, rgba(255,255,255,0.08) 3px, transparent 3px, transparent 9px),
-                   repeating-linear-gradient(-45deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 3px, transparent 3px, transparent 9px)`,
-    boardTexture: `repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 6px, transparent 6px, transparent 18px),
-                   repeating-linear-gradient(-45deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 6px, transparent 6px, transparent 18px)`
+    cellTexture: `
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 3px, transparent 3px, transparent 9px),
+      repeating-linear-gradient(-45deg, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 3px, transparent 3px, transparent 9px),
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 2px),
+      repeating-linear-gradient(-45deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 2px)
+    `,
+    boardTexture: `
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 6px, transparent 6px, transparent 18px),
+      repeating-linear-gradient(-45deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 6px, transparent 6px, transparent 18px),
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px)
+    `
   },
   steampunk: {
     bg: '#262624', board: '#262624', cell: '#181816', shadow: '#0E0E0C',
