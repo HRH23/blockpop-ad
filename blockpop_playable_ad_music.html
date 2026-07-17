@@ -317,8 +317,9 @@ function applyTheme(name){
   COLORS.length = 0; COLORS.push(...t.colors);
   CDARK.length = 0;  CDARK.push(...t.cdark);
 
-  renderBoard();
-  renderTray();
+  // Only render if game is already initialized
+  if(typeof grid !== 'undefined' && grid) renderBoard();
+  if(typeof pieces !== 'undefined' && pieces) renderTray();
 }
 
 function cycleTheme(){
@@ -1012,8 +1013,9 @@ function endGame(){
 
 // -- CONSTANTS --
 window.addEventListener('load',()=>{
-  applyTheme(THEME_ORDER[currentThemeIndex]); // starts on 'default'
   init();
+  applyTheme(THEME_ORDER[currentThemeIndex]); // theme AFTER
+
   
   document.getElementById('ctaBtn').addEventListener('click', function(e){
     e.preventDefault();
