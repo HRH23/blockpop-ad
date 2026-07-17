@@ -497,7 +497,7 @@ function renderBoard(){
   document.querySelectorAll('.cell').forEach(el=>{
     const r=+el.dataset.r,c=+el.dataset.c,v=grid[r][c];
     el.className='cell'+(v!==EMPTY?' filled':'');
-    el.style.background=v!==EMPTY?COLORS[v]:'';
+    el.style.backgroundColor=v!==EMPTY?COLORS[v]:''; // was el.style.background
     el.style.boxShadow=v!==EMPTY?`inset 0 -3px 0 ${CDARK[v]},0 2px 6px rgba(0,0,0,0.4)`:'';
   });
 }
@@ -574,7 +574,7 @@ function buildGhost(piece){
     el.style.width=el.style.height=cellSz+'px';
     el.style.borderRadius='5px';
     if(filled.has(`${r},${c}`)){
-      el.style.background=COLORS[color];
+      el.style.backgroundColor=COLORS[color]; // was el.style.background
       el.style.boxShadow=`inset 0 -3px 0 ${CDARK[color]}`;
       el.style.opacity='0.92';
     }
@@ -1038,7 +1038,7 @@ function endGame(){
 // -- CONSTANTS --
 window.addEventListener('load',()=>{
   init();
-  applyTheme(THEME_ORDER[currentThemeIndex]); // theme AFTER
+  applyTheme('steampunk'); // or 'plaid' — pick whichever this ad build should showcase
 
   
   document.getElementById('ctaBtn').addEventListener('click', function(e){
