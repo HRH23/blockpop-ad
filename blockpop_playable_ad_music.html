@@ -317,9 +317,11 @@ function applyTheme(name){
   COLORS.length = 0; COLORS.push(...t.colors);
   CDARK.length = 0;  CDARK.push(...t.cdark);
 
-  // Only render if game is already initialized
-  if(typeof grid !== 'undefined' && grid) renderBoard();
-  if(typeof pieces !== 'undefined' && pieces) renderTray();
+  // Only render if game is initialized
+  if(grid && pieces) {
+    renderBoard();
+    renderTray();
+  }
 }
 
 function cycleTheme(){
